@@ -1,0 +1,20 @@
+{
+  "name": "ty-pug-cli",
+  "version": "1.0.2",
+  "main": "index.js",
+  "bin": {
+    "ty-pug-cli": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "download-git-repo": "^3.0.2",
+    "inquirer": "^12.0.1"
+  }
+}
