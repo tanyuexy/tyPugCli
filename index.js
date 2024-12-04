@@ -6,35 +6,71 @@ const download = require("download-git-repo");
 
 const program = new Command();
 
-const auth = {
-  username: "tanyuexy", // 你的 GitHub 用户名
-  password:
-    "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" // 使用生成的 Personal Access Token
-};
+async function createFromDefaultRepo(appName) {
+  try {
+    appName = await createDir(appName);
+    console.log(`创建目录: ${appName}`);
+    console.log("创建中...");
+
+    // 从默认仓库拉取
+    download("tanyuexy/tyPugFrame#main", appName, { clone: true }, (err) => {
+      if (err) {
+        console.error("项目创建失败:", err);
+      } else {
+        console.log("项目创建完成");
+      }
+    });
+  } catch (err) {
+    console.error("创建目录时发生错误:", err);
+  }
+}
+
+async function createFromXYRepo(appName) {
+  try {
+    appName = await createDir(appName);
+    console.log(`创建目录: ${appName}`);
+    console.log("创建中...");
+
+    // 从另一个仓库拉取
+    download(
+      "xy-tuoren/easy-pug#main", // 用你想拉取的仓库地址替换
+      appName,
+      { clone: true },
+      (err) => {
+        if (err) {
+          console.error("项目创建失败:", err);
+        } else {
+          console.log("项目创建完成");
+        }
+      }
+    );
+  } catch (err) {
+    console.error("创建目录时发生错误:", err);
+  }
+}
 
 async function main() {
   let appName;
+
+  // 主程序入口：设置版本和创建命令
   program
     .version(packageJson.version)
     .command("create <name>")
     .description("请输入项目名称")
     .action((name) => {
       appName = name;
+      createFromDefaultRepo(appName);
     });
+
+  program
+    .command("create-xy <name>")
+    .description("请输入项目名称")
+    .action((name) => {
+      appName = name;
+      createFromXYRepo(appName);
+    });
+
   program.parse(process.argv);
-  appName = await createDir(appName);
-  console.log("创建中...");
-  download(
-    "tanyuexy/tyPugFrame#main",
-    appName,
-    { clone: true, auth },
-    (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("创建完成");
-      }
-    }
-  );
 }
+
 main();
